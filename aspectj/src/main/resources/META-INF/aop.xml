@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aspectj>
+    <weaver
+            options="-showWeaveInfo -XmessageHandlerClass:org.springframework.aop.aspectj.AspectJWeaverMessageHandler">
+        <include within="com.lvjc.bean.ForumService" />
+    </weaver>
+    <aspects>
+        <aspect name="com.lvjc.aspect.forumServiceAspect.ForumServiceAspect" />
+    </aspects>
+</aspectj>
