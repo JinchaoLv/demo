@@ -68,6 +68,9 @@
 				<spring.application.name>eureka-server1</spring.application.name>
 				<defaultZone>localhost:1112/eureka</defaultZone>
 			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 		</profile>
 		<profile>
 			<id>eureka-server2</id>

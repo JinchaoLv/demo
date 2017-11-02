@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: @spring.application.name@
+---
+server:
+  port: @port@
+---
+eureka:
+  instance:
+    hostname: @host@
+  client:
+    serviceUrl:
+      defaultZone: @defaultZone@

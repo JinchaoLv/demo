@@ -29,7 +29,7 @@ public class HelloController {
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String index(){
         ServiceInstance serviceInstance = this.getLocalServiceInstance();
-        logger.info("/hello, host:" + serviceInstance.getHost() + ", serviceId:" + serviceInstance.getServiceId());
+        logger.info("/hello, host:" + serviceInstance.getHost() + ":" + serviceInstance.getPort() + ", serviceId:" + serviceInstance.getServiceId());
         return "Hello world";
     }
 
