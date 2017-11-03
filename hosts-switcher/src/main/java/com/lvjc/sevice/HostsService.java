@@ -13,8 +13,8 @@ import java.util.List;
 @Service
 public class HostsService {
 
-    private static final String PATH = "C:/Windows/System32/drivers/etc/";
-    private static final String CURRENT_HOSTS = "hosts";
+    private static final String USER_HOSTS_PATH = "F:\\demo\\hosts-switcher\\src\\main\\resources\\hosts\\";
+    private static final String SYSTEM_HOSTS_File = "C:/Windows/System32/drivers/etc/hosts";
     private static final String EMPTY_SCHEME = "";
     private static final String SCHEME_INFO_HEAD = "#scheme:";
 
@@ -23,19 +23,17 @@ public class HostsService {
 
 
     public String getHosts(String scheme){
-        scheme = scheme == null ? CURRENT_HOSTS : scheme;
-        String hostFileName = PATH + scheme;
+        String hostFileName = scheme == null ? SYSTEM_HOSTS_File : USER_HOSTS_PATH + scheme;
         return FileUtil.readFile(hostFileName);
     }
 
     public void addHosts(List<Host> hosts) throws IOException {
         StringBuilder stringBuilder = new StringBuilder();
         for(Host host : hosts){
-            stringBuilder.append(host.getIp() + " " + host.getHostName());
             stringBuilder.append("\r\n");
+            stringBuilder.append(host.getIp() + " " + host.getHostName());
         }
-        String hostFileName = PATH + CURRENT_HOSTS;
-        FileUtil.writeFile(stringBuilder.toString(), hostFileName, true);
+        FileUtil.writeFile(stringBuilder.toString(), SYSTEM_HOSTS_File, true);
         needUpdate = true;
     }
 
@@ -44,13 +42,13 @@ public class HostsService {
             if(needUpdate){
                 this.updateScheme();
             }
-            FileUtil.copyFile(PATH + scheme, PATH + CURRENT_HOSTS);
+            FileUtil.copyFile(USER_HOSTS_PATH + scheme, SYSTEM_HOSTS_File);
         }
     }
 
     private String getCurrentScheme(){
         if(currentScheme == null){
-            String hostFileName = PATH + CURRENT_HOSTS;
+            String hostFileName = SYSTEM_HOSTS_File;
             try(BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(hostFileName)))){
                 String schemeLine = reader.readLine();
                 currentScheme = decryptScheme(schemeLine);
@@ -69,7 +67,7 @@ public class HostsService {
     }
 
     private void updateScheme() throws IOException {
-        FileUtil.copyFile(PATH + CURRENT_HOSTS, PATH + currentScheme);
+        FileUtil.copyFile(SYSTEM_HOSTS_File, USER_HOSTS_PATH + currentScheme);
     }
 
 

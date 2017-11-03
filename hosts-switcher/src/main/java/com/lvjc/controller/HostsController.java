@@ -5,6 +5,7 @@ import com.lvjc.sevice.HostsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -17,8 +18,9 @@ public class HostsController {
     private HostsService hostsService;
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String addHost(@RequestBody List<Host> hosts){
-        hostsService
+    public String addHost(@RequestBody List<Host> hosts) throws IOException {
+        hostsService.addHosts(hosts);
+        return hostsService.getHosts(null);
     }
 
     @RequestMapping(value = "/get", method = RequestMethod.GET)
